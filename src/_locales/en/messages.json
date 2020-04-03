@@ -1,0 +1,8 @@
+﻿{
+  "extensionName": {
+    "message": "RejectServiceWorker"
+  },
+  "extensionDescription": {
+    "message": "Rejects the service worker."
+  }
+}
