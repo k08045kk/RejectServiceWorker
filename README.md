@@ -20,7 +20,7 @@ Refuse to register a service worker. Service workers who are already registered 
 
 
 ## License
-MIT
+[MIT](https://github.com/k08045kk/RejectServiceWorker/blob/master/LICENSE)
 
 
 
