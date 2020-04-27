@@ -3,25 +3,24 @@
  */
 
 (function() {
+  // ポップアップクローズ
   function onComplate() {
     window.close();
   };
   
   // ページ読み込み完了イベント
   function onInitialize() {
-    /*
-    chrome.runtime.sendMessage({
-      method: 'getWhitelist'
-    }, function(response) {
-      document.getElementById('item_Whitelist').innerText = response.data.join('\n');
-    });*/
-    
     const currentTab = {currentWindow:true, active:true};
     chrome.tabs.query(currentTab, function(tabs) {
       const url = new URL(tabs[0].url);
+      if (url.protocol != 'https:') {
+        onComplate();
+        return;
+      }
+      
       chrome.runtime.sendMessage({
         method: 'popup',
-        hostname: url.hostname
+        hostname: url.hostname,
       }, function (response) {
         if (response.data) {
           document.getElementById('item_AddWhitelist').addEventListener('click', function() {

@@ -2,13 +2,20 @@
 =====================
 
 Rejects the ServiceWorker.
+You can install it from the following site.
+
+Reject Service Worker – Add-ons for Firefox  
+https://addons.mozilla.org/firefox/addon/reject-service-worker/
+
+Reject Service Worker - Chrome Web Store  
+https://chrome.google.com/webstore/detail/reject-service-worker/falajmifjcihbmlokgomiklbfmgmnopd
 
 
 
 ## Features
-Reject the service worker. Service workers already registered will be uninstalled. You can add a domain name to your whitelist to avoid denying a service worker.
+Refuse to register a service worker. Service workers who are already registered will be unregistered. You can add a domain name to your whitelist to avoid denying service workers.
 
-サービスワーカーを拒否します。すでに登録されているサービスワーカーはアンインストールされます。ドメイン名をホワイトリストに追加することで、サービスワーカーを拒否しないようにすることができます。
+サービスワーカーの登録を拒否します。すでに登録されているサービスワーカーは、登録解除します。ドメイン名をホワイトリストに追加することで、サービスワーカーを拒否しないようにすることができます。
 
 
 

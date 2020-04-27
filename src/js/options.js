@@ -7,12 +7,15 @@
   function onUpdateOptions(storage) {
     document.getElementById('storage_whitelist').value = storage.whitelist.join('\n');
     Object.keys(storage.checkbox).forEach(function(v) {
-      document.getElementById('storage_checkbox_'+v).checked = storage.checkbox[v];
+      const element = document.getElementById('storage_checkbox_'+v);
+      if (element) {
+        element.checked = storage.checkbox[v];
+      }
     });
   };
   
   // ホワイトリストの更新
-  function onUpdateWhitelist() {
+  function updateWhitelist() {
     const text = document.getElementById('storage_whitelist').value;
     chrome.runtime.sendMessage({
       method: 'setWhitelist',
@@ -20,11 +23,20 @@
     });
   };
   
+  let whitelistTimer = null;
+  function onUpdateWhitelist() {
+    clearTimeout(whitelistTimer);
+    whitelistTimer = setTimeout(updateWhitelist, 1000);
+  };
+  
   // チェックボックスの更新
   function onUpdateCheckbox() {
     const checkbox = {};
     Object.keys(defaultStorage.checkbox).forEach(function(v) {
-      checkbox[v] = document.getElementById('storage_checkbox_'+v).checked;
+      const element = document.getElementById('storage_checkbox_'+v);
+      if (element) {
+        checkbox[v] = element.checked;
+      }
     });
     getStorage().set({checkbox: checkbox});
   };
@@ -34,8 +46,12 @@
     getStorage().get(defaultStorage, function(storage) {
       onUpdateOptions(storage);
       document.getElementById('storage_whitelist').addEventListener('input', onUpdateWhitelist);
+      document.getElementById('storage_whitelist').addEventListener('blur', updateWhitelist);
       Object.keys(storage.checkbox).forEach(function(v) {
-        document.getElementById('storage_checkbox_'+v).addEventListener('click', onUpdateCheckbox);
+        const element = document.getElementById('storage_checkbox_'+v);
+        if (element) {
+          element.addEventListener('click', onUpdateCheckbox);
+        }
       });
     });
   };
