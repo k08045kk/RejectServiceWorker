@@ -4,36 +4,29 @@
 
 // ブラウザ判定
 function isFirefox() {
-  return typeof browser !== void 0 && typeof chrome !== void 0;
+  return typeof browser != "undefined" && typeof chrome != "undefined";
 };
 function isChrome() {
-  return !(isFirefox());
-};
-function isEdge() {
-  return typeof edge !== void 0 && typeof chrome !== void 0;
+  return !isFirefox();
 };
 
 // モバイル判定
 function isMobile() {
-  let ua = window.navigator.userAgent.toLowerCase();
-  return ua.indexOf('android') >= 0
-      || ua.indexOf('mobile') >= 0
-      || ua.indexOf('iphone') >= 0
-      || ua.indexOf('ipod') >= 0;
-};
-
-// Windows判定
-function isWindows() {
-  return (window.navigator.platform.indexOf('Win') == 0);
-};
+  const ua = window.navigator.userAgent.toLowerCase();
+  return ua.indexOf('android') != -1
+      || ua.indexOf('mobile') != -1
+      || ua.indexOf('iphone') != -1
+      || ua.indexOf('ipod') != -1;
+}
 
 // ストレージの初期値
 var defaultStorage = {
+  version: 1,
   whitelist: [],
   checkbox: {
-    popup: false,
-    icon: false
-  }
+    notificationPopup: false,
+    notificationIcon: false,
+  },
 };
 
 // ストレージの取得
