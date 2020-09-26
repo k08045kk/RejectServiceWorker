@@ -2,25 +2,19 @@
  * コンテンツスクリプト処理
  */
 
-const RejectServiceWorker = {
-  ver: 1,
-  registers: [],
-};
-
 (function() {
-  // サービスワーカー登録鍵
-  const key = Math.random().toString(32).substring(2);
-  const funcRejectServiceWorkerEnableKey = new Function(`return '`+key+`';`);
-  const funcRejectServiceWorkerDisableKey = new Function(`return '.';`);
+  let verify;
+  const register = ServiceWorkerContainer.prototype.register.bind(navigator.serviceWorker);
+  
   // サービスワーカー登録監視
   // サービスワーカー登録は、サービスワーカー登録鍵を待機する
   // サービスワーカー登録鍵あり時、登録する
   // サービスワーカー登録鍵なし時、登録拒否する
-  const funcRegisterServiceWorker = new Function('scriptURL', 'options', `
+  const funcRegisterServiceWorker = function(scriptURL, options) {
     return new Promise((resolve, reject) => {
       var func = function() {
-        if (navigator.serviceWorker.getRejectServiceWorkerKey) {
-          if (navigator.serviceWorker.getRejectServiceWorkerKey() == `+key+`) {
+        if (verify) {
+          if (verify == 'OK') {
             register(scriptURL, options).then(resolve, reject);
           } else {
             reject(new Error('Reject to register a ServiceWorker.'));
@@ -31,7 +25,7 @@ const RejectServiceWorker = {
       };
       func();
     });
-  `);
+  };
   // サービスワーカー登録拒否（再度、上書きされる可能性あり）
   const funcRejectServiceWorker = function(scriptURL, options) {
     return new Promise((resolve, reject) => {
@@ -71,16 +65,10 @@ const RejectServiceWorker = {
   }, (response) => {
     if (response.data) {
       // 許可
-      exportFunction(
-          funcRejectServiceWorkerEnableKey, 
-          ServiceWorkerContainer.prototype, 
-          {defineAs: 'getRejectServiceWorkerKey'});
+      verify = 'OK';
     } else {
       // 拒否
-      exportFunction(
-          funcRejectServiceWorkerDisableKey, 
-          ServiceWorkerContainer.prototype, 
-          {defineAs: 'getRejectServiceWorkerKey'});
+      verify = 'NG';
       exportFunction(
           funcRejectServiceWorker, 
           ServiceWorkerContainer.prototype, 
