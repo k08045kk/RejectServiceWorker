@@ -65,5 +65,5 @@
     }
   });
   
-  document.addEventListener("DOMContentLoaded", onInitialize);
+  document.addEventListener('DOMContentLoaded', onInitialize);
 })();

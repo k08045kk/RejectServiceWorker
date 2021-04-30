@@ -1,70 +1,60 @@
 ﻿<!DOCTYPE html>
-<html>
+
+
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- extension://obdkaaglafhhajcmflgmnfplmlfdhihc/html/options.html -->
   <style>
+* {
+  box-sizing: border-box;
+}
+
 body {
-  padding: 0.5em;
+  margin: 0;
+  padding: 1em;
+  font-size: 16px;
 }
-hr {
-  height: 0;
-  border: 0;
-  border-top: 1px solid #b1b1b1;
-}
+
 fieldset {
-  margin: 0 0 1em 0;
-  border: 1px solid #b1b1b1;
+  margin: 0 0 1em;
+  border: 1px solid #aaa;
 }
+
 fieldset > legend {
   padding: 0 0.5em;
-  font-size: 16px;
   font-weight: bold;
 }
-fieldset > fieldset {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-}
-p {
-  margin:0.25em;
-  font-size: 14px;
-}
-input[type="text"] {
-  margin:0.5em;
-}
+
 textarea {
-  width: calc(100% - 2em);
-  margin: 1em;
+  width: 100%;
 }
-#format_CopyTabFormat, 
-#format_CopyTabFormat2 {
-  width: calc(100% - 6em);
+
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #E8EAED;
+    background: #202124;
+  }
+  
+  textarea {
+    background: #444;
+    color: #E8EAED;
+    border: 1px solid #888;
+  }
 }
-.hide {
-  display: none !important;
-}
-#browser_option {
-  margin-left:0.5em;
-  font-size:12px;
-  color:#B36675;
-}
+
   </style>
   <script src="/js/common.js"></script>
   <script src="/js/options.js"></script>
-</head>
+
+
+
 <body>
   <!-- ホワイトリスト -->
   <fieldset id="whitelist">
     <legend>Whitelist</legend>
-    <textarea id="storage_whitelist" rows='8'></textarea>
+    <textarea id="storage_whitelist" rows="8"></textarea>
+    <small>Specify the domain name separated by a newline.</small>
   </fieldset>
   <!-- ホワイトリスト -->
-  <!-- オプション -->
-  <fieldset id="options" style="display:none">
-    <legend>Options</legend>
-    <p><label><input id="storage_checkbox_notificationPopup" type="checkbox"/>Show the rejection notification popup.</label></p>
-    <p><label><input id="storage_checkbox_notificationIcon" type="checkbox"/>Show the rejection notification icon.</label></p>
-  </fieldset>
-  <!-- オプション -->
-</body>
-</html>
