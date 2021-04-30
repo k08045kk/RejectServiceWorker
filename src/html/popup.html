@@ -1,65 +1,64 @@
 ﻿<!DOCTYPE html>
-<html>
+
+
+
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <!-- extension://obdkaaglafhhajcmflgmnfplmlfdhihc/html/popup.html -->
   <style>
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
+
 body {
   width: 250px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid #aaa;
   font-size: 16px;
   color: #000;
-  margin: 0 auto;
   user-select: none;
 }
-.top {
-  border-top: 1px solid #aaa;
+
+[hidden] {
+  display: none;
 }
+
 .title {
+  padding: .25em 0;
+  background: #A374B3;
+  color: #fff;
   font-size: 12px;
   text-align: center;
-  padding: .25em 0;
 }
-.box {
-  border-bottom: 1px solid #aaa;
-}
+
 .item {
   padding: .5em 1.5em;
+  border-top: 1px solid #aaa;
 }
-.on-target,
-.off-target:hover {
+
+.target-on,
+.target-off:hover {
   background: #b995c5;
   color: #fff;
 }
-.off-target,
-.on-target:hover {
+
+.target-off,
+.target-on:hover {
   background: #fff;
   color: #000;
 }
-.title {
-  background: #A374B3;
-  color: #fff;
-}
-#item_Whitelist {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
   </style>
   <script src="/js/common.js"></script>
   <script src="/js/popup.js"></script>
-</head>
+
+
+
 <body>
-  <div id="popup" style="display:none;">
-    <div class="box title top" id="header">RejectServiceWorker</div>
-    <div class="box item off-target" id="item_AddWhitelist" style="display:none">Add to Whitelist</div>
-    <div class="box item on-target" id="item_RemoveWhitelist" style="display:none">Remove from Whitelist</div>
+  <div id="popup" hidden="">
+    <div class="title" id="header">RejectServiceWorker</div>
+    <div class="item target-off" id="item_AddWhitelist" hidden="">Add to Whitelist</div>
+    <div class="item target-on" id="item_RemoveWhitelist" hidden="">Remove from Whitelist</div>
   </div>
-  
-  <div id="popup-action" style="display:none;"><p style="text-align:center;">Reject</p></div>
-</body>
-</html>
