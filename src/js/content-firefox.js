@@ -11,13 +11,13 @@
   // サービスワーカー登録鍵あり時、登録する
   // サービスワーカー登録鍵なし時、登録拒否する
   const funcRegisterServiceWorker = function(scriptURL, options) {
-    return new Promise((resolve, reject) => {
+    return new window.Promise((resolve, reject) => {
       var func = function() {
         if (verify) {
           if (verify == 'OK') {
             register(scriptURL, options).then(resolve, reject);
           } else {
-            reject(new Error('Reject to register a ServiceWorker.'));
+            reject(new window.Error('Reject to register a ServiceWorker.'));
           }
         } else {
           window.setTimeout(func, 100);
@@ -28,9 +28,9 @@
   };
   // サービスワーカー登録拒否（再度、上書きされる可能性あり）
   const funcRejectServiceWorker = function(scriptURL, options) {
-    return new Promise((resolve, reject) => {
+    return new window.Promise((resolve, reject) => {
       //console.log('Reject to register a ServiceWorker.');
-      reject(new Error('Reject to register a ServiceWorker.'));
+      reject(new window.Error('Reject to register a ServiceWorker.'));
     });
   };
   // サービスワーカー登録解除（失敗する可能性あり）
@@ -51,6 +51,9 @@
       });
     } catch (e) {}
   };
+  // Note: #9 ページスクリプト内では、ページスクリプトのオブジェクトを使用する必要があります。
+  //       window.Object でコンテンツスクリプトではなく、ページスクリプトのオブジェクトを使用できます。
+  //       see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts
   
   // サービスワーカー登録監視
   exportFunction(
