@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 
 
@@ -7,12 +7,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <!-- extension://obdkaaglafhhajcmflgmnfplmlfdhihc/html/popup.html -->
   <style>
-* {
-  box-sizing: border-box;
-}
-
 body {
-  width: 250px;
+  width: 16.5em;
   margin: 0;
   padding: 0;
   border: 1px solid #aaa;
@@ -68,16 +64,16 @@ body {
     color: #fff;
   }
 }
-
   </style>
-  <script src="/js/common.js"></script>
-  <script src="/js/popup.js"></script>
+  <script src="/common.js"></script>
+  <script src="./popup.js"></script>
 
 
 
 <body>
-  <div id="popup" hidden="">
+  <div id="popup" hidden>
     <div class="title" id="header">RejectServiceWorker</div>
-    <div class="item target-off" id="item_AddWhitelist" hidden="">Add to Whitelist</div>
-    <div class="item target-on" id="item_RemoveWhitelist" hidden="">Remove from Whitelist</div>
+    <div class="item target-off" id="item_addWhitelist" hidden>Add to Whitelist</div>
+    <div class="item target-on"  id="item_removeWhitelist" hidden>Remove from Whitelist</div>
+    <div class="item target-not" id="item_unexpected" hidden>This page is not applicable.</div>
   </div>
