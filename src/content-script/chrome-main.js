@@ -2,8 +2,8 @@ ServiceWorkerContainer.prototype.register = new Proxy(ServiceWorkerContainer.pro
   apply(target, self, args) {
     return new Promise((resolve, reject) => {
       const func = () => {
-        if (navigator.serviceWorker.RejectServiceWorkerKey) {
-          if (navigator.serviceWorker.RejectServiceWorkerKey === 'falajmifjcihbmlokgomiklbfmgmnopd') {
+        if (window.RejectServiceWorker?.key) {
+          if (window.RejectServiceWorker?.key === 'falajmifjcihbmlokgomiklbfmgmnopd') {
             //console.log('RejectServiceWorker', 'register', 'register');
             Reflect.apply(target, self, args).then(resolve, reject);
           } else {

@@ -1,2 +1,2 @@
 // jsRejectServiceWorkerEnableKey
-navigator.serviceWorker.RejectServiceWorkerKey = 'falajmifjcihbmlokgomiklbfmgmnopd';
+window.RejectServiceWorker = {key: 'falajmifjcihbmlokgomiklbfmgmnopd'};
