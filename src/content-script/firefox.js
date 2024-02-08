@@ -39,6 +39,9 @@ if (isExec) {
   // サービスワーカー登録拒否（再度、上書きされる可能性あり）
   const reject = function(scriptURL, options) {
     return window.Promise.reject(new Error('Reject to register a ServiceWorker.'));
+    // 備考：[ブラウザツールボックス][マルチプロセス]でエラーを表示する
+    //       DevTools 等への表示はなし（ユーザーからはほぼ見えない）
+    //       「Error: Reject to register a ServiceWorker.」
   };
   // サービスワーカー登録解除（失敗する可能性あり）
   const unregister = function() {
@@ -60,6 +63,9 @@ if (isExec) {
           });
         }
       }).catch((error) => {});
+      // 備考：[ブラウザツールボックス][マルチプロセス]でエラーを表示する
+      //       「Failed to get service worker registration(s): Storage access is restricted in this context due to user settings or private browsing mode.」
+      //       try / catch では止まらない。止め方がわからないため、出力したままにしておく。
     }
   };
   // Note: #9 ページスクリプト内では、ページスクリプトのオブジェクトを使用する必要があります。
