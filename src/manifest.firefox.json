@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "default_locale": "en",
   
   "author": "toshi",
@@ -15,6 +15,9 @@
     "gecko": {
       "id": "RejectServiceWorker@bugbugnow.net",
       "strict_min_version": "115.0"
+    },
+    "gecko_android": {
+      "strict_min_version": "121.0"
     }
   },
   
