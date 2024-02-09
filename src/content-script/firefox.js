@@ -2,7 +2,7 @@
  * コンテンツスクリプト処理
  * Firefox 用
  */
-
+//console.log('content-script', location.href);
 
 let   isExec = true;
 try { isExec = !!navigator.serviceWorker; } catch {}
