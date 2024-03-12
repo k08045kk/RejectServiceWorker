@@ -39,8 +39,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 // ストレージの変更通知（別ページ限定）
-chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'local' && changes.whitelist) {
+chrome.storage.local.onChanged.addListener((changes) => {
+  if (changes.whitelist) {
     const whitelist = changes.whitelist.newValue || [];
     listText = whitelist.join('\n');
     document.getElementById(listId).value = listText;

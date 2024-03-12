@@ -18,11 +18,12 @@
  *   121: Android Firefox:      Supports WebExtension API
  *   122: Android Firefox: Bug: Obtaining host_permission is required for content_scripts operation.
  * 
- * Chrome 88.0+
+ * Chrome 102.0+
  *   manifest.json
- *     minimum_chrome_version = "88.0"
+ *     minimum_chrome_version = "102.0"
  *   88:  Manifest v3 対応
-*/
+ *   102: chrome.storage.session
+ */
 
 const defaultStorage = {
   version: 2,

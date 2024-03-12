@@ -26,7 +26,17 @@ if (isExec) {
 
 
   // サービスワーカー登録確認
-  chrome.storage.local.get(defaultStorage).then((cache) => {
+  (async function() {
+    let cache = null;
+    try {
+      cache = await chrome.storage.session?.get({whitelist:null});
+    } catch {
+      // Uncaught (in promise) Error: Access to storage is not allowed from this context.
+    }
+    if (!cache?.whitelist) {
+      cache = await chrome.storage.local.get({whitelist:[]});
+    }
+    
     if (cache.whitelist.includes(location.hostname)) {
       // 許可
       runPageScript(chrome.runtime.getURL("/content-script/chrome-success.js"));
@@ -34,5 +44,5 @@ if (isExec) {
       // 拒否
       runPageScript(chrome.runtime.getURL("/content-script/chrome-failure.js"));
     }
-  });
+  })();
 }

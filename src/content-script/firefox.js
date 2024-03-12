@@ -82,7 +82,17 @@ if (isExec) {
 
 
   // サービスワーカー登録許可・拒否
-  chrome.storage.local.get(defaultStorage).then((cache) => {
+  (async function() {
+    let cache = null;
+    try {
+      cache = await chrome.storage.session?.get({whitelist:null});
+    } catch {
+      // Uncaught (in promise) Error: Access to storage is not allowed from this context.
+    }
+    if (!cache?.whitelist) {
+      cache = await chrome.storage.local.get({whitelist:[]});
+    }
+    
     if (cache.whitelist.includes(location.hostname)) {
       // 許可
       verify = 'OK';
@@ -95,7 +105,7 @@ if (isExec) {
           {defineAs: 'register'});
       unregister();
     }
-  });
+  })();
 }
 // 備考
 // document_start でスクリプトを挿入することで、登録関数をバックアップ前に上書きできる予定
