@@ -22,7 +22,7 @@ if (isExec) {
 
 
   // サービスワーカー登録監視
-  runPageScript(chrome.runtime.getURL("/content-script/chrome-main.js"));
+  runPageScript(chrome.runtime.getURL("/content_scripts/chrome-main.js"));
 
 
   // サービスワーカー登録確認
@@ -39,10 +39,10 @@ if (isExec) {
     
     if (cache.whitelist.includes(location.hostname)) {
       // 許可
-      runPageScript(chrome.runtime.getURL("/content-script/chrome-success.js"));
+      runPageScript(chrome.runtime.getURL("/content_scripts/chrome-success.js"));
     } else {
       // 拒否
-      runPageScript(chrome.runtime.getURL("/content-script/chrome-failure.js"));
+      runPageScript(chrome.runtime.getURL("/content_scripts/chrome-failure.js"));
     }
   })();
 }

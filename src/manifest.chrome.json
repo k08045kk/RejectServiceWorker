@@ -27,12 +27,12 @@
     "all_frames": true,
     "matches": ["https://*/*"],
     "run_at": "document_start",
-    "js": ["/content-script/chrome.js"]
+    "js": ["/content_scripts/chrome.js"]
   }],
   
   "web_accessible_resources": [{
     "matches": ["https://*/*"],
-    "resources": ["/content-script/*.js"]
+    "resources": ["/content_scripts/*.js"]
   }],
   
   "permissions": [

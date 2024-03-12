@@ -38,7 +38,7 @@
     "all_frames": true,
     "matches": ["https://*/*"],
     "run_at": "document_start",
-    "js": ["/content-script/firefox.js"]
+    "js": ["/content_scripts/firefox.js"]
   }],
   
   "host_permissions": [
