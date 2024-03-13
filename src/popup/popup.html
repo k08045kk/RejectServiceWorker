@@ -34,34 +34,19 @@ body {
   border-top: 1px solid #aaa;
 }
 
-.target-off,
-.target-on:hover {
-  background: #fff;
-  color: #000;
-}
-
-.target-on,
-.target-off:hover {
-  background: #b995c5;
-  color: #fff;
+.item:hover:not(.target-not) {
+  background: #ddd;
 }
 
 @media (prefers-color-scheme: dark) {
   body {
     color: #E8EAED;
-    background: #202124;
-  }
-
-  .target-off,
-  .target-on:hover {
     background: #444;
-    color: #E8EAED;
   }
 
-  .target-on,
-  .target-off:hover {
-    background: #8a6996;
-    color: #fff;
+  .item:hover:not(.target-not) {
+    color: #E8EAED;
+    background: #666;
   }
 }
   </style>
