@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (e) {}
   
   if (url && url.protocol == 'https:') {
+    const hostname = url.hostname.replace(/\.$/, '');   // ルートドメイン（末尾のドット）を省略
     const cache = await chrome.storage.local.get(defaultStorage);
-    const verify = cache.whitelist.includes(url.hostname);
+    const verify = cache.whitelist.includes(hostname);
     const id = verify ? 'item_removeWhitelist' : 'item_addWhitelist';
     
     document.getElementById(id).addEventListener('click', async () => {
       const cache = await chrome.storage.local.get(defaultStorage);
-      if (verify) {
-        cache.whitelist = cache.whitelist.filter(v => v != url.hostname);
-      } else {
-        cache.whitelist.push(url.hostname);
+      cache.whitelist = cache.whitelist.filter(v => v != hostname);
+      if (!verify) {
+        cache.whitelist.push(hostname);
       }
       await chrome.storage.local.set({whitelist: cache.whitelist});
       window.close();
