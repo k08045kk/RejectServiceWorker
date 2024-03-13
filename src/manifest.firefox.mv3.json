@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "__MSG_extensionName__",
   "description": "__MSG_extensionDescription__",
   "version": "0.8.0",
@@ -28,7 +28,7 @@
     ]
   },
   
-  "browser_action": {
+  "action": {
     "default_title": "__MSG_extensionName__",
     "default_popup": "/popup/popup.html"
   },
@@ -43,6 +43,10 @@
     "run_at": "document_start",
     "js": ["/content_scripts/firefox.js"]
   }],
+  
+  "host_permissions": [
+    "https://*/*"
+  ],
   
   "permissions": [
     "activeTab",
