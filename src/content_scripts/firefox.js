@@ -93,7 +93,8 @@ if (isExec) {
       cache = await chrome.storage.local.get({whitelist:[]});
     }
     
-    if (cache.whitelist.includes(location.hostname)) {
+    const hostname = location.hostname.replace(/\.$/, '');
+    if (cache.whitelist.includes(hostname)) {
       // 許可
       verify = 'OK';
     } else {
