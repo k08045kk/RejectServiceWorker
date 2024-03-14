@@ -2,7 +2,7 @@
  * コンテンツスクリプト処理
  * Firefox 用
  */
-//console.log('content-script', location.href);
+//console.log('content_scripts', location.href);
 
 let   isExec = true;
 try { isExec = !!navigator.serviceWorker; } catch {}
@@ -82,8 +82,19 @@ if (isExec) {
 
 
   // サービスワーカー登録許可・拒否
-  chrome.storage.local.get(defaultStorage).then((cache) => {
-    if (cache.whitelist.includes(location.hostname)) {
+  (async function() {
+    let cache = null;
+    try {
+      cache = await browser.storage.session?.get({whitelist:null});
+    } catch {
+      // Uncaught (in promise) Error: Access to storage is not allowed from this context.
+    }
+    if (!cache?.whitelist) {
+      cache = await browser.storage.local.get({whitelist:[]});
+    }
+    
+    const hostname = location.hostname.replace(/\.$/, '');
+    if (cache.whitelist.includes(hostname)) {
       // 許可
       verify = 'OK';
     } else {
@@ -95,7 +106,7 @@ if (isExec) {
           {defineAs: 'register'});
       unregister();
     }
-  });
+  })();
 }
 // 備考
 // document_start でスクリプトを挿入することで、登録関数をバックアップ前に上書きできる予定

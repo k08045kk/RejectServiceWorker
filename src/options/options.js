@@ -3,7 +3,7 @@
  */
 
 
-let listTimer = null;
+let listTimer = 0;
 let listText = '';
 const listId = 'storage_whitelist';
 
@@ -17,11 +17,29 @@ const updateList = async () => {
   }
 };
 const updateList2 = async () => {
+  clearTimeout(listTimer);
+  listTimer = 0;
+  
   const text = document.getElementById(listId).value;
   
-  listText = text.split('\n').map(v => v.trim()).filter(v => v != '').join('\n');
+  let list = text.split('\n');
+  // 行頭行末のスペース除去（「　.jp（全角スペース.jp）」等は存在しない）
+  // ルートドメインの省略
+  list = list.map(v => v.trim().replace(/\.$/, '')).filter(v => v != '');
+  list = list.map(v => {
+    // ピュニコードへエンコード
+    // ホスト名でない部分を削除
+    try { return new URL(v).hostname; } catch {}        // URL 形式（http://host or http://host/path）
+    try { return new URL('http://'+v).hostname; } catch {}  // ドメイン名形式（日本語.jp）
+    return '';
+  }).filter(v => v != '');
+  list = [...new Set(list)];  // 重複排除
+  
+  listText = list.join('\n');
   await chrome.storage.local.set({whitelist: listText.split('\n')});
   document.getElementById(listId).value = listText;
+  
+  // 備考：タブ・ウィンドウを直接クローズすると、本関数を回避できる
 };
 
 
@@ -39,8 +57,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
 // ストレージの変更通知（別ページ限定）
-chrome.storage.onChanged.addListener((changes, area) => {
-  if (area === 'local' && changes.whitelist) {
+chrome.storage.local.onChanged.addListener((changes) => {
+  if (changes.whitelist) {
     const whitelist = changes.whitelist.newValue || [];
     listText = whitelist.join('\n');
     document.getElementById(listId).value = listText;

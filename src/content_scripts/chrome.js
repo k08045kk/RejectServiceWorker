@@ -22,17 +22,28 @@ if (isExec) {
 
 
   // サービスワーカー登録監視
-  runPageScript(chrome.runtime.getURL("/content-script/chrome-main.js"));
+  runPageScript(chrome.runtime.getURL("/content_scripts/chrome-main.js"));
 
 
   // サービスワーカー登録確認
-  chrome.storage.local.get(defaultStorage).then((cache) => {
-    if (cache.whitelist.includes(location.hostname)) {
+  (async function() {
+    let cache = null;
+    try {
+      cache = await chrome.storage.session?.get({whitelist:null});
+    } catch {
+      // Uncaught (in promise) Error: Access to storage is not allowed from this context.
+    }
+    if (!cache?.whitelist) {
+      cache = await chrome.storage.local.get({whitelist:[]});
+    }
+    
+    const hostname = location.hostname.replace(/\.$/, '');
+    if (cache.whitelist.includes(hostname)) {
       // 許可
-      runPageScript(chrome.runtime.getURL("/content-script/chrome-success.js"));
+      runPageScript(chrome.runtime.getURL("/content_scripts/chrome-success.js"));
     } else {
       // 拒否
-      runPageScript(chrome.runtime.getURL("/content-script/chrome-failure.js"));
+      runPageScript(chrome.runtime.getURL("/content_scripts/chrome-failure.js"));
     }
-  });
+  })();
 }

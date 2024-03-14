@@ -7,10 +7,25 @@
   
   "author": "toshi",
   "homepage_url": "https://www.bugbugnow.net/",
-  "minimum_chrome_version": "102.0",
+  "developer": {
+    "name": "toshi",
+    "url": "https://github.com/k08045kk"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "RejectServiceWorker@bugbugnow.net",
+      "strict_min_version": "115.0"
+    },
+    "gecko_android": {
+      "strict_min_version": "121.0"
+    }
+  },
   
   "background": {
-    "service_worker": "/background.js"
+    "scripts": [
+      "/common.js",
+      "/background.js"
+    ]
   },
   
   "action": {
@@ -23,17 +38,15 @@
   },
   
   "content_scripts": [{
-    "world": "ISOLATED",
     "all_frames": true,
     "matches": ["https://*/*"],
     "run_at": "document_start",
-    "js": ["/content_scripts/chrome.js"]
+    "js": ["/content_scripts/firefox.js"]
   }],
   
-  "web_accessible_resources": [{
-    "matches": ["https://*/*"],
-    "resources": ["/content_scripts/*.js"]
-  }],
+  "host_permissions": [
+    "https://*/*"
+  ],
   
   "permissions": [
     "activeTab",
