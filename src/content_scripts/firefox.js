@@ -85,12 +85,12 @@ if (isExec) {
   (async function() {
     let cache = null;
     try {
-      cache = await chrome.storage.session?.get({whitelist:null});
+      cache = await browser.storage.session?.get({whitelist:null});
     } catch {
       // Uncaught (in promise) Error: Access to storage is not allowed from this context.
     }
     if (!cache?.whitelist) {
-      cache = await chrome.storage.local.get({whitelist:[]});
+      cache = await browser.storage.local.get({whitelist:[]});
     }
     
     const hostname = location.hostname.replace(/\.$/, '');
