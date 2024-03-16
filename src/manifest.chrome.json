@@ -32,7 +32,7 @@
   
   "web_accessible_resources": [{
     "matches": ["https://*/*"],
-    "resources": ["/content_scripts/*.js"]
+    "resources": ["/content_scripts/chrome-*.js"]
   }],
   
   "permissions": [
