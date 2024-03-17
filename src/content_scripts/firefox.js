@@ -52,7 +52,7 @@ if (isExec) {
     //         「 Error: Permission denied to access property "then"」
     //       コンテンツスクリプトの Error を間違って渡すとエラーを出力します。
     //         「InternalError: Promise rejection value is a non-unwrappable cross-compartment wrapper.」
-    //       see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Content_scripts
+    //   see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts
   });
   exportFunction(
       register, 
