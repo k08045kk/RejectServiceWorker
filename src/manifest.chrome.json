@@ -26,6 +26,8 @@
     "world": "ISOLATED",
     "all_frames": true,
     "matches": ["https://*/*"],
+    "match_about_blank": true,
+    "match_origin_as_fallback": true,
     "run_at": "document_start",
     "js": ["/content_scripts/chrome.js"]
   }],

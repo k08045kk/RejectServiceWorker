@@ -40,6 +40,7 @@
   "content_scripts": [{
     "all_frames": true,
     "matches": ["https://*/*"],
+    "match_about_blank": true,
     "run_at": "document_start",
     "js": ["/content_scripts/firefox.js"]
   }],
