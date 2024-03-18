@@ -72,13 +72,19 @@ if (isExec) {
         if (await verifyPromise === 'NG') {
           // サービスワーカーを登録解除
           const unregisterPromises = registrations.map(registration => registration.unregister());
+          await Promise.all(unregisterPromises);
           
           // キャッシュストレージを全削除
           const keys = await caches.keys();
           const cacheDeletePromises = keys.map(key => caches.delete(key));
+          await Promise.all(cacheDeletePromises);
           
-          //await Promise.all(unregisterPromises);
-          //await Promise.all(cacheDeletePromises);
+          // 備考：登録解除・キャッシュ削除後に登録された場合、
+          //       次回アクセス時に登録解除・キャッシュ削除します。
+          //       事実として突破されるパターンは存在します。
+          // 備考：登録された場合、 install でキャッシュされます。
+          //       また、 activate で skipWaiting() を実施することで、
+          //       ページが閉じるのを待たずに直ちに処理を開始することもできます。
         }
       }
       // 備考：[ブラウザツールボックス][マルチプロセス]でエラーを表示する

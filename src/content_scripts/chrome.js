@@ -41,7 +41,7 @@ if (isExec) {
   // 備考：ServiceWorkerContainer.prototype.register (navigator.serviceWorker.register) 上書きする
   //       本処理まで、即時実行する必要がある。そのため、非同期処理に侵入してはならない。
   // 備考：document_start でのスクリプト挿入で、登録前に上書きできる予定
-  // 備考：key が固定値であるため、対策すれば突破される。
+  // 備考：key が固定値であるため、対策すれば簡単に突破される。
   //       突破された場合、登録解除・キャッシュ削除で妥協する。
   
   
@@ -56,13 +56,19 @@ if (isExec) {
         if (registrations.length) {
           // サービスワーカーを登録解除
           const unregisterPromises = registrations.map(registration => registration.unregister());
+          await Promise.all(unregisterPromises);
           
           // キャッシュストレージを全削除
           const keys = await caches.keys();
           const cacheDeletePromises = keys.map(key => caches.delete(key));
+          await Promise.all(cacheDeletePromises);
           
-          //await Promise.all(unregisterPromises);
-          //await Promise.all(cacheDeletePromises);
+          // 備考：登録解除・キャッシュ削除後に登録された場合、
+          //       次回アクセス時に登録解除・キャッシュ削除します。
+          //       事実として突破されるパターンは存在します。
+          // 備考：登録された場合、 install でキャッシュされます。
+          //       また、 activate で skipWaiting() を実施することで、
+          //       ページが閉じるのを待たずに直ちに処理を開始することもできます。
         }
       } catch (e) {
         //console.log(e);

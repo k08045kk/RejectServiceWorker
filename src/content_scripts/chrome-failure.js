@@ -12,24 +12,3 @@ ServiceWorkerContainer.prototype.register = new Proxy(ServiceWorkerContainer.pro
     // It will be described as an error on the extension side. (occurs from manifest v3)
   }
 });
-
-
-
-//(async function() {
-//  try {
-//    const registrations = await navigator.serviceWorker.getRegistrations();
-//    if (registrations.length) {
-//      // Unregister service worker
-//      const unregisterPromises = registrations.map(registration => registration.unregister());
-//      
-//      // Delete all cache storage
-//      const keys = await caches.keys();
-//      const cacheDeletePromises = keys.map(key => caches.delete(key));
-//      
-//      //await Promise.all(unregisterPromises);
-//      //await Promise.all(cacheDeletePromises);
-//    }
-//  } catch (e) {
-//    //console.log(e);
-//  }
-//})();
