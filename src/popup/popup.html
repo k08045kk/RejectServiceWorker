@@ -8,47 +8,85 @@
   <script defer src="/common.js"></script>
   <script defer src="./popup.js"></script>
   <style>
-body {
-  width: 280px;
-  margin: auto;
-  padding: 0;
-  border: 1px solid #aaa;
-  font-size: 16px;
-  color: #000;
-  user-select: none;
+
+:root {
+  --white-color: #F5F5F5;               /* オフホワイト */
+  --white-dark-color: #DBDBDB;
+  --black-color: #303030;               /* オフブラック */
+  --black-light-color: #474747;
+  --gray-color: #888;
+  --accent-color: #895B8A;              /* 古代紫 */
+  --accent-dark-color: #654366;
+  --accent-light-color: #BA7CBC;
+  --text-accent-color: var(--white-color);
+  --border-color: var(--gray-color);
+  
+  
+  --text-color: var(--black-color);
+  --background-color: var(--white-color);
+  --background-hover-color: var(--white-dark-color);
+  
+  --text-active-color: var(--white-color);
+  --background-active-color: var(--accent-light-color);
+}/* ライトモード */
+@media (prefers-color-scheme: dark) {
+:root {
+  --text-color: var(--white-color);
+  --background-color: var(--black-color);
+  --background-hover-color: var(--black-light-color);
+  
+  --text-active-color: var(--white-color);
+  --background-active-color: var(--accent-dark-color);
 }
+}/* ダークモード */
+
+
 
 [hidden] {
   display: none;
 }
-
+body {
+  width: 280px;
+  margin: auto;
+  padding: 0;
+  font-size: 16px;
+  user-select: none;
+}
 .title {
   padding: .25em 0;
-  background: #A374B3;
-  color: #fff;
   font-size: 12px;
   text-align: center;
 }
-
 .item {
   padding: .5em 1.5em;
-  border-top: 1px solid #aaa;
 }
 
+
+
+body {
+  /* 標準状態 */
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  background: var(--background-color);
+}
+.item {
+  border-top: 1px solid var(--border-color);
+}
+@media (hover: hover) { /* モバイルで :hover が残る対策 */
 .item:hover:not(.target-not) {
-  background: #ddd;
+  /* ホバー中 */
+  color: var(--text-color);
+  background: var(--background-hover-color);
 }
-
-@media (prefers-color-scheme: dark) {
-  body {
-    color: #E8EAED;
-    background: #444;
-  }
-
-  .item:hover:not(.target-not) {
-    color: #E8EAED;
-    background: #666;
-  }
+}
+.item:active:not(.target-not),    /* クリック中 */
+.item.checked:not(.target-not) {  /* 選択状態 */
+  color: var(--text-active-color);
+  background: var(--background-active-color);
+}
+.title {
+  color: var(--text-accent-color);
+  background: var(--accent-color);
 }
   </style>
 
