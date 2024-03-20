@@ -31,7 +31,7 @@ if (isExec) {
   
   
   // サービスワーカー登録監視（登録 or 拒否）
-  const register = new Proxy(ServiceWorkerContainer.prototype.register, {
+  const register = new Proxy(window.ServiceWorkerContainer.prototype.register, {
     apply(target, self, args) {
       return new window.Promise((resolve, reject) => {
         verifyPromise = verifyPromise || verifyAsyncFunc();
@@ -45,18 +45,22 @@ if (isExec) {
           }
         });
       });
-    }
+    },
     // 備考: #9 ページスクリプト内では、ページスクリプトのオブジェクトを使用する必要があります。
     //       window.Object でコンテンツスクリプトではなく、ページスクリプトのオブジェクトを使用できます。
     //       コンテンツスクリプトの Promise を間違って渡すとエラーを出力します。
     //         「 Error: Permission denied to access property "then"」
     //       コンテンツスクリプトの Error を間違って渡すとエラーを出力します。
     //         「InternalError: Promise rejection value is a non-unwrappable cross-compartment wrapper.」
+    //       window.Proxy
+    //         「Error: Permission denied to access property "apply"」
+    //       window.Reflect
+    //         「TypeError: window.Reflect.apply is not a function」
     //   see https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Sharing_objects_with_page_scripts
   });
   exportFunction(
       register, 
-      ServiceWorkerContainer.prototype, 
+      window.ServiceWorkerContainer.prototype, 
       {defineAs: 'register'});
   // 備考：ServiceWorkerContainer.prototype.register (navigator.serviceWorker.register) 上書きする
   //       本処理まで、即時実行する必要がある。そのため、非同期処理に侵入してはならない。
