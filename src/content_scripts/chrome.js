@@ -9,15 +9,18 @@ try { isExec = !!navigator.serviceWorker; } catch {}
 // 備考：「http:」のページでも実行される
 //       "matches": ["https://*/*"], で何故か動作する。
 if (isExec) {
-  
-  
+  const key = Math.random().toString(36).substring(2);
   
   // ページスクリプト（MAIN）を実行する
-  const runPageScript = (src) => {
+  const runPageScript = (src, arg) => {
     const script = document.createElement('script');
+    if (arg) {
+      script.dataset.arg = arg;
+    }
     script.src = chrome.runtime.getURL(src);
     document.documentElement.appendChild(script);
     script.remove();
+    script.dataset.arg = null;
   };
   // サービスワーカーの登録可否を確認する
   const verifyAsyncFunc = async () => {
@@ -37,7 +40,7 @@ if (isExec) {
   
   
   // サービスワーカー登録監視（登録 or 拒否）
-  runPageScript('/content_scripts/chrome-main.js');
+  runPageScript('/content_scripts/chrome-main.js', key);
   // 備考：ServiceWorkerContainer.prototype.register (navigator.serviceWorker.register) 上書きする
   //       本処理まで、即時実行する必要がある。そのため、非同期処理に侵入してはならない。
   // 備考：document_start でのスクリプト挿入で、登録前に上書きできる予定
@@ -75,7 +78,7 @@ if (isExec) {
       }
     } else {
       // 許可
-      runPageScript('/content_scripts/chrome-success.js');
+      runPageScript('/content_scripts/chrome-success.js', key);
     }
   })();
 }
