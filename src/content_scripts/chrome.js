@@ -9,19 +9,11 @@ try { isExec = !!navigator.serviceWorker; } catch {}
 // 備考：「http:」のページでも実行される
 //       "matches": ["https://*/*"], で何故か動作する。
 if (isExec) {
+  const name = 'RejectServiceWorker';
   const key = Math.random().toString(36).substring(2);
   
-  // ページスクリプト（MAIN）を実行する
-  const runPageScript = (src, arg) => {
-    const script = document.createElement('script');
-    if (arg) {
-      script.dataset.arg = arg;
-    }
-    script.src = chrome.runtime.getURL(src);
-    document.documentElement.appendChild(script);
-    script.remove();
-    script.dataset.arg = null;
-  };
+  
+  
   // サービスワーカーの登録可否を確認する
   const verifyAsyncFunc = async () => {
     let cache = null;
@@ -36,27 +28,36 @@ if (isExec) {
     const hostname = location.hostname.replace(/\.$/, '');
     return cache.whitelist.includes(hostname) ? 'OK' : 'NG';
   };
+  let verifyPromise;
   
   
   
+  // コンテンツスクリプト（MAIN）を実行する
   // サービスワーカー登録監視（登録 or 拒否）
-  runPageScript('/content_scripts/chrome-main.js', key);
-  // 備考：ServiceWorkerContainer.prototype.register (navigator.serviceWorker.register) 上書きする
+  const script = document.createElement('script');
+  script.dataset.arg = key;
+  script.addEventListener(name+'.ready', (event) => {
+    verifyPromise = verifyPromise || verifyAsyncFunc();
+    verifyPromise.then((verify) => {
+      const detail = verify === 'OK' ? key : '.';
+      script.dispatchEvent(new CustomEvent(name+'.verify', {detail}));
+    });
+  }, {capture:true, onece:true, passive:true});
+  script.src = chrome.runtime.getURL('/content_scripts/chrome-main.js');
+  document.documentElement.appendChild(script);
+  script.remove();
+  // 備考：ServiceWorkerContainer.prototype.register (navigator.serviceWorker.register) を上書きする
   //       本処理まで、即時実行する必要がある。そのため、非同期処理に侵入してはならない。
   // 備考：document_start でのスクリプト挿入で、登録前に上書きできる予定
-  // 備考：key が固定値であるため、対策すれば簡単に突破される。
-  //       突破された場合、登録解除・キャッシュ削除で妥協する。
   
   
   
   (async function() {
-    if (await verifyAsyncFunc() === 'NG') {
-      // 拒否
-      runPageScript('/content_scripts/chrome-failure.js');
-      
-      try {
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        if (registrations.length) {
+    try {
+      const registrations = await navigator.serviceWorker.getRegistrations();
+      if (registrations.length) {
+        verifyPromise = verifyPromise || verifyAsyncFunc();
+        if (await verifyPromise === 'NG') {
           // サービスワーカーを登録解除
           const unregisterPromises = registrations.map(registration => registration.unregister());
           await Promise.all(unregisterPromises);
@@ -73,12 +74,9 @@ if (isExec) {
           //       また、 activate で skipWaiting() を実施することで、
           //       ページが閉じるのを待たずに直ちに処理を開始することもできます。
         }
-      } catch (e) {
-        //console.log(e);
       }
-    } else {
-      // 許可
-      runPageScript('/content_scripts/chrome-success.js', key);
+    } catch (e) {
+      //console.log(e);
     }
   })();
 }
