@@ -37,7 +37,7 @@ if (isExec) {
         verifyPromise = verifyPromise || verifyAsyncFunc();
         verifyPromise.then((verify) => {
           if (verify === 'NG') {
-            reject(new window.Error('Reject to register a ServiceWorker.'));
+            reject(new window.Error('Reject to register the service worker.'));
             // 備考：標準関数は、 reject() 時エラーを出力する。
             //       例：sw.js is 404
           } else {

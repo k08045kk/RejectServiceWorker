@@ -36,7 +36,7 @@
         }
         verifyPromise.then((verify) => {
           if (verify === 'NG') {
-            reject(new gError('Reject to register a ServiceWorker.'));
+            reject(new gError('Reject to register the service worker.'));
             // Issue #14: "Error: Reject to register a ServiceWorker."
             // If the site does not catch it, the above error will occur.
           } else {
