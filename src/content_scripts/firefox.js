@@ -68,7 +68,7 @@ if (isExec) {
   
   
   
-  (async function() {
+  ;(async function() {
     try {
       const registrations = await navigator.serviceWorker.getRegistrations();
       if (registrations.length) {
