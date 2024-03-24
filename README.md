@@ -1,7 +1,7 @@
 ﻿Reject Service Worker
 =====================
 
-Reject the Service Worker.  
+Reject the service worker.  
 You can install it from the following site.  
 
 Reject Service Worker – Add-ons for Firefox  
