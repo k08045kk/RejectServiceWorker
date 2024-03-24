@@ -8,10 +8,46 @@
   <script defer src="/common.js"></script>
   <script defer src="./options.js"></script>
   <style>
+
+:root {
+  --white-color: #F5F5F5;               /* オフホワイト */
+  --white-dark-color: #DBDBDB;
+  --black-color: #303030;               /* オフブラック */
+  --black-dark-color: #212121;
+  --black-light-color: #474747;
+  --gray-color: #888;
+  --text-accent-color: var(--white-color);
+  --accent-color: #895B8A;              /* 古代紫 */
+  --accent-dark-color: #654366;
+  --accent-light-color: #BA7CBC;
+  --border-color: var(--gray-color);
+}
+:root {
+  --text-color: #000;
+  --background-color: var(--white-color);
+  
+  --input-text-color: #000;
+  --input-background-color: #FFF;
+}/* ライトモード */
+@media (prefers-color-scheme: dark) {
+:root {
+  --text-color: var(--white-color);
+  --background-color: var(--black-dark-color);
+  
+  --input-text-color: var(--white-color);
+  --input-background-color: var(--black-light-color);
+}
+}/* ダークモード */
+
+
+
 body {
   margin: 0;
   padding: 1em;
   font-size: 16px;
+  
+  color: var(--text-color);
+  background: var(--background-color);
 }
 
 fieldset {
@@ -26,19 +62,10 @@ fieldset > legend {
 
 textarea {
   width: 100%;
-}
-
-@media (prefers-color-scheme: dark) {
-  body {
-    color: #E8EAED;
-    background: #202124;
-  }
   
-  textarea {
-    background: #444;
-    color: #E8EAED;
-    border: 1px solid #888;
-  }
+  border: 1px solid var(--gray-color);
+  color: var(--input-text-color);
+  background: var(--input-background-color);
 }
   </style>
 

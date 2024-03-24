@@ -3,6 +3,6 @@
     "message": "Reject Service Worker"
   },
   "extensionDescription": {
-    "message": "Rejects the ServiceWorker."
+    "message": "Reject the service worker."
   }
 }

@@ -16,7 +16,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     const verify = cache.whitelist.includes(hostname);
     const id = verify ? 'item_removeWhitelist' : 'item_addWhitelist';
     
-    document.getElementById(id).addEventListener('click', async () => {
+    let startSlicking = false;
+    const element = document.getElementById(id);
+    element.addEventListener('click', async () => {
+      if (startSlicking) { return; }
+      startSlicking = true;
+      element.classList.add('checked');
+      
       const cache = await chrome.storage.local.get(defaultStorage);
       cache.whitelist = cache.whitelist.filter(v => v != hostname);
       if (!verify) {
